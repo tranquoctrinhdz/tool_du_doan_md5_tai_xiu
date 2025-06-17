@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepLogic Go88 RealTime V12</title>
+  <style>
+    body {
+      background: linear-gradient(#000000, #1c1c1c);
+      color: #00ffcc;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    input, button {
+      font-size: 20px;
+      padding: 10px;
+      margin: 8px;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 8px;
+      border: none;
+    }
+    button {
+      background: #ff0066;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ff3388;
+    }
+    .result {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+    .history {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #cccccc;
+    }
+    .link-go88 {
+      display: inline-block;
+      margin-top: 25px;
+      background: gold;
+      color: black;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 12px;
+      text-decoration: none;
+    }
+    .signature {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🔮 DeepLogic Go88 RealTime V12</h1>
+
+  <input type="text" id="md5" placeholder="Nhập mã MD5 Go88">
+  <br>
+  <input type="number" id="vốn" placeholder="Nhập số vốn của bạn (vd: 500000)">
+  <br>
+  <button onclick="duDoan()">🎯 Dự đoán</button>
+
+  <div class="result" id="ketqua"></div>
+
+  <div class="history">
+    <h3>Lịch sử gần nhất:</h3>
+    <ul id="lichsu"></ul>
+  </div>
+
+  <a href="https://go88.ca" target="_blank" class="link-go88">🔗 Mở Go88 Ngay</a>
+
+  <div class="signature">Cre: Trần Quốc Trịnh – Trùm Kéo Thuê Go88</div>
+
+  <script>
+    const lichSu = [];
+
+    function duDoan() {
+      const md5 = document.getElementById("md5").value.trim();
+      const von = parseInt(document.getElementById("vốn").value.trim());
+
+      if (md5.length < 10 || isNaN(von) || von <= 0) {
+        alert("Vui lòng nhập đúng mã MD5 và số vốn!");
+        return;
+      }
+
+      const hashNumber = md5.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+      const ketqua = hashNumber % 2 === 0 ? "🎲 TÀI" : "🎲 XỈU";
+
+      const tyLeTai = ((hashNumber % 10) + 50) + "%";
+      const tyLeXiu = (100 - parseInt(tyLeTai)) + "%";
+      const goiYCuoc = Math.floor(von * 0.4).toLocaleString();
+
+      const kqText = `
+        <div>
+          Kết quả dự đoán: <strong>${ketqua}</strong><br>
+          🧠 Tỷ lệ ra Tài: ${tyLeTai} – Xỉu: ${tyLeXiu}<br>
+          💰 Gợi ý cược: ${goiYCuoc} VND
+        </div>
+      `;
+
+      document.getElementById("ketqua").innerHTML = kqText;
+
+      // Lưu lịch sử
+      lichSu.unshift(`${ketqua} | ${tyLeTai} vs ${tyLeXiu} | Cược: ${goiYCuoc} VND`);
+      if (lichSu.length > 10) lichSu.pop();
+
+      document.getElementById("lichsu").innerHTML = lichSu.map(item => `<li>${item}</li>`).join("");
+
+      // Xoá mã MD5
+      document.getElementById("md5").value = "";
+    }
+  </script>
+
+</body>
+</html>
